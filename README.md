@@ -1,19 +1,28 @@
-# transportation_problem
-The repository contains a short script solving a transportation problem in Julia.
-Upon searching for an implementation of the classic transportation problem in Julia, I found various deprecated minimum working examples, so I thought I ought to create my own.
-The problem solved in the script can be written as follows 
+# Transportation Problem
+This repository contains a short script solving a transportation problem in Julia using JuMP.
+Upon searching for an implementation of a transportation problem in Julia, I found a [deprecated minimum working example](https://rosettacode.org/wiki/Transportation_problem#Julia) on [Rosetta Code](https://rosettacode.org/wiki/Rosetta_Code),
+so I thought I ought to re-write it.
+The optimization problem solved in the script `JuMP_solve.jl` can be written as follows
 ```math
 min_{x} c'x
 ```
-subject to 
+subject to
 ```
-x_1 + x_2 + x_3 <= 25 
+x_1 + x_2 + x_3 <= 25
 x_4 + x_5 + x_6 <= 35
 x_1 + x_4 = 20
 x_2 + x_5 = 30
 x_3 + x_6 = 10
 ```
-where `c` is the vector of cost of shipping across various routes and `x` is the vector of traded quantities.
-The constraints can be represented in matrix form as `Ax <= b`.
-A general formulation of the problem (where I first looked and found the deprecated MWE) can be found [here](https://rosettacode.org/wiki/Transportation_problem#Julia).
-My goal is that this short minimum working example helps demonstrate how Julia's JuMP mathematical programming language works through demonstrating this classic transport LP problem.
+where `c` is the vector of cost of shipping each of the elements in `x` the vector of traded quantities from suppliers to customers.
+The constraints are represented in matrix form as `Ax <= b`.
+The solution for the vector of traded quantities is
+```
+x* = [20 0 5
+      0 30 5]
+```
+More details on the formulation of this exact problem (where I first looked and found the deprecated MWE) can be found [here](https://rosettacode.org/wiki/Transportation_problem) on Rosetta Code.
+The problem is to find the minimum cost quantities shipped from two suppliers to three customers subject to capacity and demand constraints.
+My goal is that this short minimum working example helps demonstrate how Julia's [JuMP](https://jump.dev/JuMP.jl/stable/) mathematical programming language works through an MWE of this classic transport LP problem.
+
+I've since edited the [Julia section of the Transportation Problem page on Rosetta Code](https://rosettacode.org/wiki/Transportation_problem#Julia) with this example.

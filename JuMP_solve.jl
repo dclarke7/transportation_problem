@@ -1,17 +1,17 @@
 using JuMP, Ipopt
 
 # cost vector
-c = [3, 5, 7, 3, 2, 5]
-N = size(c)
+c = [3, 5, 7, 3, 2, 5];
+N = size(c,1);
 
-# constraint matrices
+# constraints Ax (<,>,=) b
 A = [1 1 1 0 0 0
      0 0 0 1 1 1
      1 0 0 1 0 0
      0 1 0 0 1 0
-     0 0 1 0 0 1]
-b = [ 25,  35,  20,  30,  10]
-s = ['<', '<', '=', '=', '=']
+     0 0 1 0 0 1];
+b = [ 25,  35,  20,  30,  10];
+s = ['<', '<', '=', '=', '='];
 
 # construct model
 model = Model(Ipopt.Optimizer)
@@ -23,9 +23,10 @@ cost_fn = @expression(model, c'*x)                                              
 
 # solve model
 status = JuMP.optimize!(model);
-xstar = value.(x); xstar
-println("total cost = ", JuMP.objective_value(model))
+xstar = value.(x);
+println("solution vector of quantities = ", xstar)
+println("minimum total cost = ", JuMP.objective_value(model))
 
 # recover Lagrange multipliers for post-optimality
-λ = JuMP.dual(C1[1]),JuMP.dual(C1[2])
-μ = JuMP.dual(C2[1]),JuMP.dual(C2[2]),JuMP.dual(C2[3])
+λ = [JuMP.dual(C1[1]),JuMP.dual(C1[2])]
+μ = [JuMP.dual(C2[1]),JuMP.dual(C2[2]),JuMP.dual(C2[3])]
