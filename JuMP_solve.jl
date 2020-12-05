@@ -1,4 +1,4 @@
-using JuMP, Ipopt
+using JuMP, GLPK
 
 # cost vector
 c = [3, 5, 7, 3, 2, 5];
@@ -14,7 +14,7 @@ b = [ 25,  35,  20,  30,  10];
 s = ['<', '<', '=', '=', '='];
 
 # construct model
-model = Model(Ipopt.Optimizer)
+model = Model(GLPK.Optimizer)
 @variable(model, x[i=1:N] >= 0, base_name="traded quantities")
 cost_fn = @expression(model, c'*x)                                              # cost function
 @constraint(model, C1, A[1:2,:]*x .<= b[1:2])                                   # inequality constraints
